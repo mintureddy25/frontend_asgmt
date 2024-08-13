@@ -1,20 +1,28 @@
 import React, { useState } from "react";
-import Example from "./tabs";
 import Graph from "./Areachart";
 
 const MainPage = () => {
-  const tabs = [
+  const [tabs,setTabs] = useState([
     { name: "Summary", href: "#", current: false },
-    { name: "Chart", href: "#", current: false },
-    { name: "Statistics", href: "#", current: true },
+    { name: "Chart", href: "#", current: true },
+    { name: "Statistics", href: "#", current: false },
     { name: "Analysis", href: "#", current: false },
     { name: "Settings", href: "#", current: false },
-  ];
+  ]);
 
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
   }
-  const currentTab = useState(tabs[1]);
+  const updateTabs = (name) => {
+    setTabs((prevTabs) =>
+      prevTabs.map((tab) =>
+        tab.name === name
+          ? { ...tab, current: true }
+          : { ...tab, current: false },
+      ),
+    );
+  };
+
   return (
     <div className="bg-white">
       <div className="mx-auto max-w-7xl px-6 py-24 sm:pt-32 lg:px-8 lg:py-40">
@@ -33,6 +41,7 @@ const MainPage = () => {
               {tabs.map((tab) => (
                 <option key={tab.name}>{tab.name}</option>
               ))}
+              
             </select>
           </div>
           <div className="hidden sm:block">
@@ -43,6 +52,7 @@ const MainPage = () => {
                     key={tab.name}
                     href={tab.href}
                     aria-current={tab.current ? "page" : undefined}
+                    onClick={() => updateTabs(tab.name)}
                     className={classNames(
                       tab.current
                         ? "border-indigo-500 text-indigo-600"
@@ -52,12 +62,13 @@ const MainPage = () => {
                   >
                     {tab.name}
                   </a>
+                  
                 ))}
               </nav>
             </div>
           </div>
         </div>
-        <Graph />
+        {tabs[1].current? <Graph />:<></>}
       </div>
     </div>
   );
