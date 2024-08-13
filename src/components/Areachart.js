@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { AreaChart, Card } from "@tremor/react";
 
 const Graph = () => {
@@ -20,9 +20,64 @@ const Graph = () => {
     { "no": 14, "value": 295 },
     { "no": 15, "value": 280 }
   ];
+  const [intervals, setIntervals] = useState([
+    { name: "1d", enabled: true, current: true },
+    { name: "3d", enabled: true, current: false },
+    { name: "1w", enabled: true, current: false },
+    { name: "1m", enabled: true, current: false },
+    { name: "1y", enabled: true, current: false },
+    { name: "max", enabled: true, current: false }
+  ]);
+  const changeInterval = (name) => {
+    setIntervals((prevIntervals) =>
+      prevIntervals.map((interval) =>
+        interval.name === name
+          ? { ...interval, current: true }
+          : { ...interval, current: false },
+      ),
+    );
+  };
+  function classNames(...classes) {
+    return classes.filter(Boolean).join(" ");
+  }
+  
   return (
     <div className="App">
       <Card className="my-5 sm:mx-auto sm:max-w-7xl">
+      <div className="flex justify-between">
+          <div>
+            <h3 className="font-semibold text-tremor-content-strong">
+              Full Screen
+            </h3>
+            <p className="mt-1 text-sm text-gray-500">
+              Compare
+            </p>
+          </div>
+          <div className="hidden sm:block">
+            <nav className="flex space-x-2" aria-label="intervals">
+              {intervals.map((interval) => (
+                <span
+                  key={interval.name}
+                  onClick={
+                    !interval.enabled
+                      ? console.log("disabled interval")
+                      : () => changeInterval(interval.name)
+                  }
+                  className={classNames(
+                    interval.current ? "bg-indigo-100 text-indigo-700" : "",
+                    interval.enabled
+                      ? "text-gray-500 hover:text-gray-700"
+                      : "text-gray-300",
+                    "rounded-md px-3 py-2 text-xs font-normal capitalize cursor-pointer",
+                  )}
+                  aria-current={interval.current ? "page" : undefined}
+                >
+                  {interval.name}
+                </span>
+              ))}
+            </nav>
+          </div>
+        </div>
       <AreaChart
         className="mt-2 h-80"
         data={chartdata}
