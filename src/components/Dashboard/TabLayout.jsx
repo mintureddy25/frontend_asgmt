@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import ChartPanel from "./Chart/ChartPanel";
 import Summary from "./Summary/Summary";
 import { classNames } from "../../utils/helpers";
+import Statistics from "./Statistics";
+import Analysis from "./Analysis";
+import Settings from "./Settings";
 
 const TabLayout = ({ handleMinMax, fullScreen, setFullScreen }) => {
   const [tabs, setTabs] = useState([
@@ -14,9 +17,9 @@ const TabLayout = ({ handleMinMax, fullScreen, setFullScreen }) => {
         <ChartPanel onSendMinMax={handleMinMax} setFullScreen={setFullScreen} />
       ),
     },
-    { name: "Statistics", href: "#", current: false, content: <></> },
-    { name: "Analysis", href: "#", current: false, content: <></> },
-    { name: "Settings", href: "#", current: false, content: <></> },
+    { name: "Statistics", href: "#", current: false, content: <Statistics /> },
+    { name: "Analysis", href: "#", current: false, content: <Analysis /> },
+    { name: "Settings", href: "#", current: false, content: <Settings /> },
   ]);
 
   const updateTabs = (name) => {

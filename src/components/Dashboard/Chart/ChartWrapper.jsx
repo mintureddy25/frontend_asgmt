@@ -4,6 +4,7 @@ import { ArrowsExpandIcon } from "@heroicons/react/outline";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { classNames } from "../../../utils/helpers";
+import { Card } from "@tremor/react/dist";
 
 const ChartWrapper = (props) => {
   const { setFullScreen, intervals, changeInterval } = props;
