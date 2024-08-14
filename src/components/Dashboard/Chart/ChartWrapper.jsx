@@ -43,6 +43,23 @@ const ChartWrapper = (props) => {
               </button>
             </div>
           </div>
+          <div className="sm:hidden">
+            <label htmlFor="intervals" className="sr-only">
+              Select a tab
+            </label>
+
+            <select
+              id="intervals"
+              name="intervals"
+              defaultValue={intervals.find((interval) => interval.current).name}
+              onChange={(e) => changeInterval(e.target.value)}
+              className="block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            >
+              {intervals.map((interval) => (
+                <option key={interval.name}>{interval.name}</option>
+              ))}
+            </select>
+          </div>
           <div className="hidden sm:block">
             <nav className="flex space-x-2" aria-label="intervals">
               {intervals.map((interval) => (
