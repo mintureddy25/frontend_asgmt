@@ -27,18 +27,18 @@ const Graph = ({ onSendMinMax, fullScreen, setFullScreen }) => {
     return classes.filter(Boolean).join(" ");
   }
 
-  const handleFullScreenClick = () => {
-    setFullScreen((prevState) => !prevState);
-  };
-  let buttonName = "Full Screen";
+  const [buttonName, setButtonName] = useState("Full Screen");
 
-  useEffect(() => {
-    if (fullScreen) {
-      buttonName = "Exit";
-    } else {
-      buttonName = "Full Screen";
-    }
-  }, [fullScreen]);
+  const handleFullScreenClick = () => {
+    setFullScreen((prevState) => {
+      if (!prevState) {
+        setButtonName("Exit");
+      } else {
+        setButtonName("Full Screen");
+      }
+      return !prevState;
+    });
+  };
 
   const sampleData = [
     { no: 1, value: 150 },
@@ -129,8 +129,8 @@ const Graph = ({ onSendMinMax, fullScreen, setFullScreen }) => {
   }, [chartdata, onSendMinMax]);
 
   return (
-    <div className="App">
-      <Card className="my-5 sm:mx-auto sm:max-w-7xl">
+    <div>
+      <Card className="my-5 sm:mx-auto">
         <div className="flex justify-between">
           <div>
             <div className="flex space-x-4">

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Graph from "./Areachart";
-import Summary from "./summary";
+import Summary from "./Summary";
 
 const MainPage = () => {
   const handleMinMax = (min, max) => {
@@ -51,7 +51,7 @@ const MainPage = () => {
   const [maxValue, setMaxValue] = useState(250);
 
   return (
-    <div className="bg-white">
+    <div className="mx-auto">
       <div className="mx-auto max-w-7xl px-6 py-24 sm:pt-28 lg:px-8 lg:py-36 -mt-8">
         {fullScreen === false && (
           <div>
