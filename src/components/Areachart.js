@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { AreaChart, Card } from "@tremor/react";
+import { ArrowsExpandIcon } from "@heroicons/react/outline";
 
-const Graph = ({onSendMinMax}) => {
-  
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+
+const Graph = ({ onSendMinMax, fullScreen, setFullScreen }) => {
   const [intervals, setIntervals] = useState([
     { name: "1d", current: false },
     { name: "3d", current: false },
@@ -23,6 +26,19 @@ const Graph = ({onSendMinMax}) => {
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
   }
+
+  const handleFullScreenClick = () => {
+    setFullScreen((prevState) => !prevState);
+  };
+  let buttonName = "Full Screen";
+
+  useEffect(() => {
+    if (fullScreen) {
+      buttonName = "Exit";
+    } else {
+      buttonName = "Full Screen";
+    }
+  }, [fullScreen]);
 
   const sampleData = [
     { no: 1, value: 150 },
@@ -84,46 +100,54 @@ const Graph = ({onSendMinMax}) => {
     { no: 57, value: 170 },
     { no: 58, value: 200 },
     { no: 59, value: 230 },
-    { no: 60, value: 250 }
-];
-const [chartdata,setChartdata]= useState(sampleData);
-useEffect(() => {
-  
-  if (intervals[0].current) {
+    { no: 60, value: 250 },
+  ];
+  const [chartdata, setChartdata] = useState(sampleData);
+  useEffect(() => {
+    if (intervals[0].current) {
       setChartdata(sampleData.slice(0, 9));
-  } else if (intervals[1].current) {
+    } else if (intervals[1].current) {
       setChartdata(sampleData.slice(0, 18));
-  } else if (intervals[2].current) {
+    } else if (intervals[2].current) {
       setChartdata(sampleData.slice(0, 30));
-  } else if (intervals[3].current) {
-    setChartdata(sampleData.slice(0, 39));
-  }else if (intervals[4].current) {
-    setChartdata(sampleData.slice(0, 50));
-  }else {
-      setChartdata(sampleData); 
-  }
+    } else if (intervals[3].current) {
+      setChartdata(sampleData.slice(0, 39));
+    } else if (intervals[4].current) {
+      setChartdata(sampleData.slice(0, 50));
+    } else {
+      setChartdata(sampleData);
+    }
+  }, [intervals]);
 
-}, [intervals]);
-
-useEffect(() => {
-  // Compute min and max when chartdata changes
-  if (chartdata.length > 0) {
+  useEffect(() => {
+    if (chartdata.length > 0) {
       const min = chartdata[0].value;
       const max = chartdata[chartdata.length - 1].value;
-      console.log(min, max);
+
       onSendMinMax(min, max);
-  }
-}, [chartdata, onSendMinMax]);
+    }
+  }, [chartdata, onSendMinMax]);
 
   return (
     <div className="App">
       <Card className="my-5 sm:mx-auto sm:max-w-7xl">
         <div className="flex justify-between">
           <div>
-            <h3 className="font-semibold text-tremor-content-strong">
-              Full Screen
-            </h3>
-            <p className="mt-1 text-sm text-gray-500">Compare</p>
+            <div className="flex space-x-4">
+              <button
+                onClick={handleFullScreenClick}
+                className="flex items-center space-x-2 p-2 text-gray-500 hover:text-gray-700"
+              >
+                <ArrowsExpandIcon className="h-6 w-6 rotate-45 transform" />
+                <span className="text-sm font-medium">{buttonName}</span>
+              </button>
+              <button className="flex items-center space-x-2 p-2 text-gray-500 hover:text-gray-700">
+                <div className="flex items-center justify-center w-8 h-8 border border-gray-300 rounded-full">
+                  <FontAwesomeIcon icon={faPlus} className="text-gray-500" />
+                </div>
+                <span className="text-sm font-medium">Compare</span>
+              </button>
+            </div>
           </div>
           <div className="hidden sm:block">
             <nav className="flex space-x-2" aria-label="intervals">
