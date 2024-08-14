@@ -16,7 +16,7 @@ export default function Summary() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          https://github.com/mintureddy25/frontend_asgmt/tree/master
+          https://github.com/mintureddy25/frontend_asgmt
         </a>
         <p className="mt-6 text-lg leading-8 text-gray-600">Contact me:</p>
 
