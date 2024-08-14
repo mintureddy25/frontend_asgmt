@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Graph from "./Areachart";
 
 const MainPage = () => {
-  const [tabs,setTabs] = useState([
+  const [tabs, setTabs] = useState([
     { name: "Summary", href: "#", current: false },
     { name: "Chart", href: "#", current: true },
     { name: "Statistics", href: "#", current: false },
@@ -18,20 +18,38 @@ const MainPage = () => {
       prevTabs.map((tab) =>
         tab.name === name
           ? { ...tab, current: true }
-          : { ...tab, current: false },
-      ),
+          : { ...tab, current: false }
+      )
     );
+  };
+
+  const [minValue, setMinValue] = useState(150);
+  const [maxValue, setMaxValue] = useState(250);
+
+  const handleMinMax = (min, max) => {
+    setMinValue(min);
+    setMaxValue(max);
   };
 
   return (
     <div className="bg-white">
       <div className="mx-auto max-w-7xl px-6 py-24 sm:pt-32 lg:px-8 lg:py-40">
         <div>
+          <div className="flex flex-col-reverse gap-y-4">
+            <dd className="text-5xl font-semibold tracking-tight text-gray-900">
+              {maxValue}{" "}
+              <span className="text-gray-400 text-sm align-super"> USD</span>
+            </dd>
+          </div>
+          <div className="text-gray-900">
+            <h className="text-green-500 text-2xl">{`+${maxValue-minValue} (${(((maxValue-minValue) / minValue) * 100).toFixed(3)}%)`}</h>
+          </div>
+
           <div className="sm:hidden">
             <label htmlFor="tabs" className="sr-only">
               Select a tab
             </label>
-            {/* Use an "onChange" listener to redirect the user to the selected tab URL. */}
+
             <select
               id="tabs"
               name="tabs"
@@ -41,7 +59,6 @@ const MainPage = () => {
               {tabs.map((tab) => (
                 <option key={tab.name}>{tab.name}</option>
               ))}
-              
             </select>
           </div>
           <div className="hidden sm:block">
@@ -62,13 +79,12 @@ const MainPage = () => {
                   >
                     {tab.name}
                   </a>
-                  
                 ))}
               </nav>
             </div>
           </div>
         </div>
-        {tabs[1].current? <Graph />:<></>}
+        {tabs[1].current ? <Graph onSendMinMax={handleMinMax} /> : <></>}
       </div>
     </div>
   );
