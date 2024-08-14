@@ -11,7 +11,7 @@ export default function Summary() {
           View my github repo here:
         </p>
         <a
-          href="https://github.com/mintureddy25/frontend_asgmt/tree/master"
+          href="https://github.com/mintureddy25/frontend_asgmt"
           className="font-semibold text-indigo-600"
           target="_blank"
           rel="noopener noreferrer"
