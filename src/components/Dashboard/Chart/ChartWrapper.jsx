@@ -3,13 +3,16 @@ import { ArrowsExpandIcon } from "@heroicons/react/outline";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { classNames } from "../../../utils/helpers";
+import { classNames, getFromSessionStorage } from "../../../utils/helpers";
 import { Card } from "@tremor/react/dist";
 
 const ChartWrapper = (props) => {
   const { setFullScreen, intervals, changeInterval } = props;
+  const sessionStorageFullScreen = getFromSessionStorage("fullScreen");
 
-  const [buttonName, setButtonName] = useState("Full Screen");
+  const [buttonName, setButtonName] = useState(
+    sessionStorageFullScreen ? "Exit" : "Full Screen"
+  );
 
   const handleFullScreenClick = () => {
     setFullScreen((prevState) => {
