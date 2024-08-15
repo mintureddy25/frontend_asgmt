@@ -1,15 +1,21 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 
 import TabLayout from "./TabLayout";
+import { getFromSessionStorage, storeInSessionStorage } from "../../utils/helpers";
 
 const Dashboard = () => {
-  const [fullScreen, setFullScreen] = useState(false);
+  const sessionStorageFullScreen = getFromSessionStorage('fullScreen');
+  const [fullScreen, setFullScreen] = useState(sessionStorageFullScreen ? sessionStorageFullScreen : false);
   const [minValue, setMinValue] = useState(150);
   const [maxValue, setMaxValue] = useState(250);
   const handleMinMax = (min, max) => {
     setMinValue(min);
     setMaxValue(max);
   };
+
+  useEffect(() => {
+    storeInSessionStorage('fullScreen',fullScreen);
+  }, [fullScreen]);
 
   return (
     <div className="mx-auto">
