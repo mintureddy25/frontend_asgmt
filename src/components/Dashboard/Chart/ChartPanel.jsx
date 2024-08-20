@@ -2,18 +2,16 @@ import React, { useEffect, useState } from "react";
 import ChartWrapper from "./ChartWrapper";
 import Graph from "./Graph";
 import { sampleData } from "../../../utils/mockData";
-import { getFromSessionStorage, storeInSessionStorage } from "../../../utils/helpers";
 function ChartPanel(props) {
   const { onSendMinMax, setFullScreen } = props;
 
-  const sessionStorageIntervals = getFromSessionStorage('intervals')
-
   const [chartdata, setChartdata] = useState(sampleData);
-  const [intervals, setIntervals] = useState(sessionStorageIntervals ? sessionStorageIntervals :[
+  const [intervals, setIntervals] = useState([
     { name: "1d", current: false },
     { name: "3d", current: false },
     { name: "1w", current: false },
     { name: "1m", current: false },
+    { name: "6m", current: false },
     { name: "1y", current: false },
     { name: "max", current: true },
   ]);
@@ -23,15 +21,16 @@ function ChartPanel(props) {
     } else if (intervals[1].current) {
       setChartdata(sampleData.slice(0, 18));
     } else if (intervals[2].current) {
-      setChartdata(sampleData.slice(0, 30));
+      setChartdata(sampleData.slice(0, 27));
     } else if (intervals[3].current) {
-      setChartdata(sampleData.slice(0, 39));
+      setChartdata(sampleData.slice(0, 35));
     } else if (intervals[4].current) {
+      setChartdata(sampleData.slice(0, 43));
+    } else if (intervals[5].current) {
       setChartdata(sampleData.slice(0, 50));
     } else {
       setChartdata(sampleData);
     }
-    storeInSessionStorage('intervals',intervals);
   }, [intervals]);
 
   const changeInterval = (name) => {
