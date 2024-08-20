@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import ChartWrapper from "./ChartWrapper";
 import Graph from "./Graph";
 import { sampleData } from "../../../utils/mockData";
+import { getFromSessionStorage, storeInSessionStorage } from "../../../utils/helpers";
 function ChartPanel(props) {
   const { onSendMinMax, setFullScreen } = props;
+  const sessionStorageIntervals = getFromSessionStorage('intervals');
 
   const [chartdata, setChartdata] = useState(sampleData);
-  const [intervals, setIntervals] = useState([
+  const [intervals, setIntervals] = useState(sessionStorageIntervals ? sessionStorageIntervals :[
     { name: "1d", current: false },
     { name: "3d", current: false },
     { name: "1w", current: false },
@@ -31,6 +33,7 @@ function ChartPanel(props) {
     } else {
       setChartdata(sampleData);
     }
+    storeInSessionStorage('intervals',intervals);
   }, [intervals]);
 
   const changeInterval = (name) => {
